@@ -27,9 +27,10 @@ def find_role(instructor_name)
 end
 
 def find_tcf
-    get_instructors.select do |instructor|
+    instructor_hashes = get_instructors.select do |instructor|
         instructor[:role] == "tcf"
-    end.collect {|instr| instr[:name]}
+    end
+    instructor_hashes.collect {|instr| instr[:name]}
 
 end
 
@@ -59,3 +60,5 @@ puts !names.include?("Paul")
 # print instructors
 # print "\n\n"
 # print names
+
+str = "hello"
