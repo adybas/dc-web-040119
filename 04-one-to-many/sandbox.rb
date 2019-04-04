@@ -8,44 +8,46 @@ class School
         @instructors = []
     end
 
-    def add_instructor(instructor)
-        @instructors << instructor
-    end
-
-    def find_instructor_named(name)
-        # iterate through instructor array
-        puts self
-        self.instructors.find do |instructor|
-        # find the one whose name matches inputted parameter
-            instructor.name == name
-        end
+    def add_instructor(new_teacher)
+        @instructors << new_teacher
 
     end
+
+    # def instructors
+    #     @instructors
+    # end
 
 end
 
 class Instructor
 
-    attr_accessor :name, :favorite_food
+    attr_accessor :name
 
-    def initialize(name, favorite_food)
-        @name, @favorite_food = name, favorite_food
+    def initialize(name)
+        @name = name
     end
 
-    def introduce 
-        puts "Hi my name is #{self.name}"
-    end 
+
 end
 
 flatiron = School.new("Flatiron")
-paul = Instructor.new("Paul", "Pizza")
-melanie = Instructor.new("Melanie", "Indian")
-jake = Instructor.new("Jake", "Chips")
 
+puts flatiron.name == "Flatiron"
+
+paul = Instructor.new("Paul Nicholsen")
 flatiron.add_instructor(paul)
-flatiron.add_instructor(melanie)
-flatiron.add_instructor(jake)
 
-# puts flatiron.instructors[1]
-# puts flatiron.instructors[1].introduce
-print flatiron.find_instructor_named("Melanie") == melanie
+# print flatiron.instructors
+
+bruno = Instructor.new("Bruno Garcia")
+jc = Instructor.new("JC Change")
+flatiron.add_instructor(bruno)
+flatiron.add_instructor(jc)
+
+print flatiron.instructors
+puts "\n*******\n"
+
+bruno.name = "Bruno Obama"
+
+print flatiron.instructors
+# flatiron.instructors = ["Albert Einstein", "Bill Nye"]

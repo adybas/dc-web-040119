@@ -15,28 +15,30 @@ class Puppy
         @cuteness = 5
     end
 
+    def cuteness=(cuteness)
+        @cuteness = cuteness.clamp(1, 10)
+        # if @cuteness > 10
+        #     @cuteness = 10
+        # elsif @cuteness < 1
+        #     @cuteness = 1
+        # end
+
+        # @cuteness = @cuteness > 10 || @cuteness < 1 ? 10 || 1 : @cuteness
+    end
+
     def play_in_the_mud
-        @cuteness -= 5
-        if @cuteness > 10
-            @cuteness = 10
-        elsif @cuteness < 1
-            @cuteness = 1
-        end
+        self.cuteness -= 5
     end
 
     def take_a_bath
-        @cuteness += 3 
-        if @cuteness > 10
-            @cuteness = 10
-        elsif @cuteness < 1
-            @cuteness = 1
-        end
+        puts self.name
+        self.cuteness += 3 
     end    
 end
 
 fido = Puppy.new("Fido")
 puts fido.cuteness == 5 # test initial cuteness
-fido.take_a_bath
-puts fido.cuteness == 8 # test that take a bath raises cuteness by 3
-fido.take_a_bath
-puts fido.cuteness == 10 # test that cuteness cannot exceed 10
+fido.play_in_the_mud
+puts fido.cuteness == 1 # test that take a bath raises cuteness by 3
+# fido.play_in_the_mud
+# puts fido.cuteness == 10 # test that cuteness cannot exceed 10
