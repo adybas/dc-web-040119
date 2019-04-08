@@ -21,3 +21,14 @@ coffee_dad.like_tweet(tweet6)
 tea_uncle.like_tweet(tweet1)
 puts coffee_dad.liked_tweets.include?(tweet5)
 puts coffee_dad.liked_tweets
+
+puts coffee_dad.liked_messages.include?("I need tea")
+
+puts tweet5.likers.include?(coffee_dad)
+
+coffee_dad.like_tweet(tweet1)
+coffee_dad.like_tweet(tweet1)
+puts coffee_dad.liked_tweets.count(tweet1) == 1
+
+coffee_dad.unlike_tweet(tweet1)
+puts coffee_dad.liked_tweets.count(tweet1) == 0

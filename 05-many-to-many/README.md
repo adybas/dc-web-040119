@@ -27,6 +27,6 @@ Based off of yesterday's code, we're going to add the ability to like a tweet. W
 * User class
   * `#like_tweet` that accepts as a tweet instance as a parameter
   * `#liked_tweets` that returns a collection of all the tweets this user has liked
-  * `#liked_messages` returns an array of the bodies of all Tweets this User has liked
+  * `#liked_messages` returns an array of the bodies of all Tweets this User has liked (i.e., an array of strings)
 * Tweet class
   * `#likers` that returns a collection of all the Users who have liked this tweet

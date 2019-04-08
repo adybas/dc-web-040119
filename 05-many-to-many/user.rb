@@ -22,16 +22,33 @@ class User
         Like.new(tweet, self)
     end
 
-    def liked_tweets
-        # look through all the user-tweet pairings (Likes)
-        likes = Like.all.select do |like|
+    def likes
+        Like.all.select do |like|
             # get all the pairings that match the user
             like.user == self
         end
+
+    end
+
+    def liked_tweets
+        # look through all the user-tweet pairings (Likes)
         # return the tweets corresponding with those likes
-        likes.map do |like|
+        self.likes.map do |like|
             like.tweet
         end
+    end
+
+    def liked_messages
+        # return a list of messages
+        self.liked_tweets.map {|tweet| tweet.message}
+    end
+
+    def unlike_tweet(tweet)
+        # get all likes
+        # select the like with the tweet we are looking for
+        # delete the value from Like.all
+        bad_like = self.likes.find {|like| like.tweet == tweet}
+        Like.all.delete(bad_like)
     end
 
 end
