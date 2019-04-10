@@ -6,7 +6,6 @@ class Trip
 
     def initialize(listing, guest)
         @listing, @guest = listing, guest
-
         @@all << self
     end
 

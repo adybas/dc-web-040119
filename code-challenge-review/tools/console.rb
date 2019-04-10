@@ -12,6 +12,7 @@ buffy_trip = Trip.new(tokyo_house, buffy)
 justin = Guest.new("Justin")
 justin_trip_one = Trip.new(buffy_house, justin)
 justin_trip_two = Trip.new(willow_house, justin)
+Trip.new(willow_house, buffy)
 
 puts "Guest knows their name?"
 puts buffy.name == "Buffy"
@@ -36,6 +37,12 @@ puts buffy_trip.listing == tokyo_house
 puts "Listing knows all its trips?"
 puts buffy_house.trips.include?(justin_trip_one)
 puts !buffy_house.trips.include?(justin_trip_two)
+
+puts "Listing can count its trips"
+puts willow_house.trip_count == 2
+
+puts "Can get most popular listing"
+puts Listing.most_popular == willow_house
 
 
 Pry.start
