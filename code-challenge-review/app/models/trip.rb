@@ -9,7 +9,11 @@ class Trip
         @@all << self
     end
 
-    def self.all 
-        @@all 
+    # def self.all # Trip.all
+    #     @@all 
+    # end
+
+    def all # vegas.all
+
     end
 end
