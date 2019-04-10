@@ -20,6 +20,14 @@ class Listing
     end
 
     def trips
+        # iterate over all Trips
+        Trip.all.select do |trip|
+            # select the ones where the city matches this instance's city
+            trip.listing == self
+        end
+    end
+
+    def guests
 
     end
 
