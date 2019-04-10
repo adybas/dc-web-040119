@@ -12,8 +12,8 @@ Write out the relationships using has_many, belongs_to and has_many_through. Cre
 #### Passenger
 - #drivers
   - returns all drivers a passenger has ridden with
-- #rides
-  - returns all rides a passenger has been on
+<!-- - #rides
+  - returns all rides a passenger has been on -->
 <!-- - .all
   - returns an array of all passengers -->
 - #total_distance
@@ -24,8 +24,8 @@ Write out the relationships using has_many, belongs_to and has_many_through. Cre
 #### Driver
 - #passengers
   - returns all passengers a driver has had
-- #rides
-  - returns all rides a driver has made
+<!-- - #rides
+  - returns all rides a driver has made -->
 <!-- - .all
   - returns an array of all drivers -->
 - .mileage_cap(distance)

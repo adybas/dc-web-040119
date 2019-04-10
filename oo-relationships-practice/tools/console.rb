@@ -28,4 +28,11 @@ puts "Driver.all knows all its drivers?"
 puts Driver.all.include?(jeff)
 puts Driver.all.include?(dale)
 
+puts "Passenger.all knows all the passenger"
+puts Passenger.all.include?(rosa)
+
+puts "Passenger knows their rides?"
+puts rosa.rides.include?(medium_trip)
+# puts rosa.rides == [short_trip, medium_trip]
+
 Pry.start

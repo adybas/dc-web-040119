@@ -14,7 +14,9 @@ class Driver
     end
 
     def rides
-
+        Ride.all.select do |ride|
+            ride.driver == self
+        end
     end
-    
+
 end
