@@ -35,4 +35,15 @@ puts "Passenger knows their rides?"
 puts rosa.rides.include?(medium_trip)
 # puts rosa.rides == [short_trip, medium_trip]
 
+puts "Passenger knows all of their drivers"
+puts rosa.drivers.include?(dale)
+
+puts "Driver knows all of their passengers"
+puts jeff.passengers.include?(rosa)
+
+puts "Driver class has mileage cap"
+puts Driver.mileage_cap(100).include?(dale)
+puts !Driver.mileage_cap(100).include?(jeff)
+
+puts dale.total_distance == 250.0
 Pry.start

@@ -10,8 +10,8 @@ You are building an app for a Lyft/Uber competitor
 Write out the relationships using has_many, belongs_to and has_many_through. Create the necessary methods to connect these classes.
 
 #### Passenger
-- #drivers
-  - returns all drivers a passenger has ridden with
+<!-- - #drivers
+  - returns all drivers a passenger has ridden with -->
 <!-- - #rides
   - returns all rides a passenger has been on -->
 <!-- - .all
@@ -22,8 +22,8 @@ Write out the relationships using has_many, belongs_to and has_many_through. Cre
   - should find all passengers who have travelled over 100 miles with the service
 
 #### Driver
-- #passengers
-  - returns all passengers a driver has had
+<!-- - #passengers
+  - returns all passengers a driver has had -->
 <!-- - #rides
   - returns all rides a driver has made -->
 <!-- - .all
