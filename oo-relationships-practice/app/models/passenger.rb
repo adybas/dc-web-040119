@@ -21,5 +21,10 @@ class Passenger
 
     def drivers
 
+        # look at all the rides
+        # look at specific passenger's rides
+        # get the drivers of those rides
+        self.rides.map {|ride| ride.driver}
+
     end
 end
