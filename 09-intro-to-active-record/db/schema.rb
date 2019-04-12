@@ -10,11 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_15_174818) do
+ActiveRecord::Schema.define(version: 2019_04_12_193530) do
 
   create_table "authors", force: :cascade do |t|
     t.string "name"
-    t.string "pen_name"
+    t.integer "birth_year"
+  end
+
+  create_table "favorite_foods", force: :cascade do |t|
+    t.string "name"
+    t.integer "calories"
   end
 
 end
