@@ -1,14 +1,12 @@
-# Setting up the application
 require 'bundler/setup'
 Bundler.require
 
-# require 'sinatra/activerecord'
+# setting up the database connection (old way)
+# DB = SQLite3::Database.new("db/library.db")
 
 ActiveRecord::Base.establish_connection(
   adapter: 'sqlite3',
-  database: "db/development.sqlite"
+  database: "db/library.db"
 )
 
 ActiveRecord::Base.logger = Logger.new(STDOUT)
-
-require_all 'app'
