@@ -12,5 +12,9 @@
 - Create a new book
 
 - Edit an existing book
+    - PUT vs PATCH
+        - Put:  Replaces an existing resource with a new version
+        - Patch:  Updates an existing resource with any changed information
+        - Both:  IDEMPOTENT
 
 - Delete an existing book
