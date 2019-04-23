@@ -1,4 +1,3 @@
-
 - MVC Architecture
     - Models: Store the data
     - Controllers: Logic of your app
@@ -28,7 +27,6 @@ class CreateBooks < ActiveRecord::Migration[5.1]
 end
 ```
 
-- ** Review request/response and server/client terminology
 - Build out controllers
 
 
