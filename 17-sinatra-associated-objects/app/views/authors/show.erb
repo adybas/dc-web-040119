@@ -1,0 +1,7 @@
+<h1>Author Detail Page</h1>
+
+<h2><%= @author.name %></h2>
+
+<% @author.books.each do |book|%>
+    <%= book.title %>
+<% end %>

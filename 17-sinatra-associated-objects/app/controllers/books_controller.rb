@@ -1,7 +1,7 @@
 class BooksController < Sinatra::Base
 
     set :views, "app/views/books"
-    
+
     get "/books" do
         @books = Book.all
         erb :index
@@ -18,7 +18,8 @@ class BooksController < Sinatra::Base
     end
 
     post "/books" do
-        author = params[:author]
+        author_id = params[:author]
+        author = Author.find(author_id)
         title = params[:title]
         snippet = params[:snippet]
         book = Book.create(author: author, title: title, snippet: snippet)
