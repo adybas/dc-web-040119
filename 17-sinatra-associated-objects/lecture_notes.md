@@ -1,114 +1,93 @@
-lecture_notes.md
-
-- `rails new snack-tracker`
-- `cd snack-tracker`
-- `rails g model Snack name calories:integer deliciousness:integer`
-    - Look at what it's built
-        -model
-        -migration
-        -test file
-        -fixtures 
--`rails db:migrate`
-    - show schema
-        - null: false
-        - point out `created_at`, `updated_at`
-- build some seed data
-- Review RESTful routes (index, show, edit, create, new, update, destroy)
-- in config/routes.rb:
-    -`  resources :snacks, only: [:index]`
-- Build a controller
-- `rails g controller Snacks index`
-    - Build this in the wrong directory and show the `rails destroy controller Snacks` command
-- app/controller/snacks_controller.rb
+- Continue with code from yesterday's lecture (14-sinatra-forms-pt2)
+- Draw out one-to-many relationship from author to books.  Who should be responsible for holding FK? (Book)
+- Begin with changing application to:
+    - Have a separate Author table
+    - 
+    ```rb
+    rake db:create_migration NAME=create_author_table
+    ```
 
 ```rb
-class SnacksController < ApplicationController
-
-        def index
-            @snacks = Snack.all
-            
-        end
-
+class CreateAuthorsTable < ActiveRecord::Migration[5.2]
+  def change
+    create_table :authors do |t|
+        t.string :name
+    end
+  end
 end
 ```
+    - Add FK relationship from Book to Author
+    - `rake db:create_migration NAME=add_author_id_to_books`
 
-- Build the view in the snacks folder
-    - Point out extension `.html.erb`
-- Go to localhost:3000/index, which is wrong.  Show `rails routes`
-    - localhost:3000/snacks
-
-- add show route, controller, view.  Will work without restarting.  App folder can change without restart; routes need restart (but I guess not if just changing the only?)
-    - show traditional way of building links, then show `rails routes` again as well as go into `rails c` and show the `app.snacks_path` and other routes
-    - `<%= link_to snack.name, snack_path(snack) %>`
-    - add some css somewhere on the page to introduce
-        - external stylesheets
-        - classes and ids
-        - basic css syntax
-
-- add `:new :create`
-    - `@snack = Snack.new`
-    - new.html.erb
-    - **`form_for` vs `form_tag`**
-        -`form_for` represents an ActiveRecord model
-        -`form_tag` doesn't, and should be used for custom forms
-        - both include csrf validation.  Before defining fields, show the form (with all hidden fields) in the inspector
-        - `form_for`s is a bit easier to use for creating forms for a model object because it figures out what url to use and what http method to use depending on whether the object is a new record or a saved record.
-        - Rails 5 will replace both of these with `form_with`
-        
-```html
-<h1>New Snack:</h1>
-<%= form_for @snack do |f| %>
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-    <%= f.label :calories %>
-    <%= f.number_field :calories %>
-    <%= f.label :deliciousness %>
-    <%= f.select :deliciousness, (1..10) %>
-    <%= f.submit "Snackify" %>
-<% end %>
-```
-
-- put byebug in Create
-- Show params
-- Show `Snack.create(params)` and `Snack.create(params[:snack])` give same error.
-    - Security risk
-        - Mass assignment, can put in bad code
 ```rb
-    def create
-        @snack = Snack.create(params.require(:snack).permit(:name, :deliciousness, :calories))
-        redirect_to @snack
+class AddAuthorIdToBooks < ActiveRecord::Migration[5.2]
+  def change
+    add_column :books, :author_id, :integer 
+  end
+end
+```
+    - show results of `db:migrate:status` and schema table
+    - Remove author string from Book schema
+    - `rake db:create_migration NAME=remove_author_from_books`
+    - Make an Author model (discuss need to make Author in both the database and a Ruby model).  
+    - Update GoogleBooks::Adapter to populate Author table and correctly store Author name while preserving author_url / slug capabilities.  Move the methods from the adapter to the model. 
+            - What methods go where?  Things that act directly on an Author object should go on the models.
+            - new migrations to add author table, add author_id to column to books, remove author column from books
+            - create author.rb
+            - move slug method into author class
+            - update googlebooks adapter to use author.slug in author_url
+            - update googlebooks adapter to find_or_create an author
+            - add relationship to Book and Author classes
+    - create AuthorsController and BooksController (**PLURAL**).  Move book routes into BooksController.  Move the views directory into subdirectory `/books` Specify views at top: `set :views, 'app/views/books'`.  
+    - In `config.ru`:
+    ```rb
+    require_relative './config/environment'
+
+    require_relative './app/controllers/authors_controller'
+    require_relative './app/controllers/books_controller'
+
+    use AuthorsController
+    use BooksController
+    run ApplicationController
+    ```
+        * can have multiple `use`
+        * only one `run`
+    - move books views into folder
+    - Build `index` and `show` pages for Author
+    - Alter book create page to use `book[attribute]` syntax, explicitly entering the author_id
+    - Alter Book create pages to have an author dropdown
+    ```
+    <select name="book[author_id]">
+        <% @authors.each do |author| %>
+          <option value="<%= author.id %>">
+            <%= author.name %>
+          </option>
+        <% end %>
+    </select>
+    ```
+
+    - When creating a new author we should be able to simultaneously create books.
+        - First add to the form a single book:
+```rb
+    <input type="text" name="book[title]" placeholder="Title">
+    <input type="textarea" name="book[][snippet]" placeholder="Snippet"> 
+```
+        - Show `params` in pry
+        - Then multiple books (note the `[]`) and show in pry
+        ```rb
+        <input type="text" name="book[][title]" placeholder="Title">
+        <input type="textarea" name="book[][snippet]" placeholder="Snippet">
+        ```
+```rb
+post "/authors" do 
+    author_name = params[:name]
+    author = Author.create(name: author_name)
+    binding.pry
+    params[:book].each do |book_info|
+        Book.create(author: author,
+                    title: book_info[:title],
+                    snippet: book_info[:snippet])
     end
-```
-
-- add :update and :edit to routes
-- edit.html.erb matches new.html.erb
-    - move form into `_snack_form.html.erb`
-    - `<%= render "snack_form" %>`
-- add link from detail page to edit page
-    - `<%= link_to "Edit", edit_snack_url(@snack) %>`
-- add link on index page to show page
-    - `<%= link_to snack.name, snack_url(snack) %>`
-- SnackController#update matches create.  Move `allowed_params` into private method
-- Destroy method
-    - can remove `only:` now since we're doing them all
-- add form_tag (custom form so not form_for) to edit page
-
-```rb
-    <%= form_tag @snack, method: "DELETE" do %>
-        <%= submit_tag "Delete" %>
-    <% end %>
-```
-
-```rb
-    def destroy
-        Snack.destroy(params[:id])
-        redirect_to snacks_path
-    end
-```
-
-- `before_action :find_snack, only: [:edit, :update, :show]`
-```rb
-def find_snack
-        @snack = snack.find(params[:id])
-    end
+    redirect "/authors/#{author.id}"
+end
 ```
