@@ -2,6 +2,10 @@
 
 <h2><%= @snack.name %></h2>
 
+<% if @snack.retailer %>
+    <div>Made by <%= link_to @snack.retailer.name, retailer_path(@snack.retailer) %></div>
+<% end %>
+
 <h3>Calories: <%= @snack.calories %></h3>
 <h3>Deliciousness: <%= @snack.deliciousness %></h3>
 

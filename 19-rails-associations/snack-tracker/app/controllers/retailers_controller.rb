@@ -7,4 +7,22 @@ class RetailersController < ApplicationController
     def show
         @retailer = Retailer.find(params[:id])
     end
+
+    def new
+        @retailer = Retailer.new
+        @retailer.snacks.build
+    end
+
+    def create
+        @retailer = Retailer.create(retailer_params)
+        redirect_to retailer_path(@retailer)
+    end
+
+    private
+
+    def retailer_params
+        params.require(:retailer).permit(:name, :year_established,
+            snacks_attributes: [:name, :calories, :year_established])
+    end
+
 end

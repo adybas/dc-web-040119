@@ -9,7 +9,7 @@
 
         <% @retailer.snacks.each do |snack| %>
             <div class="snack-list-item">
-                <%= link_to snack.name, snack_path(snack) %>
+                <%= link_to snack.name, retailer_snack_path(@retailer, snack) %>
             </div>
         <% end %>
 <% else %>
