@@ -14,3 +14,18 @@
     <!-- - Rails generators -->
     <!-- - Routes and the mysteries therein -->
     - Rails cheatsheet about how the pieces fit together (Spark Notes)
+
+
+Collection-select:
+
+<%= f.collection_select(:retailer_id, Retailer.all, :id, :name, {:prompt => 'Choose a retailer'}) %>
+
+:retailer_id - (field we are filling in on a Snack)
+Retailer.all - (collection to iterate over and populate the dropdown)
+:id - Field(method) from a retailer that will fill in the value parameter of the option tag (i.e., what gets put into the params hash)
+:name - Field(method) from a retailer that will fill in the display text of the option tag
+
+hostess.id (2)
+hostess.name ("Hostess")
+
+<option value=2>Hostess</option>
