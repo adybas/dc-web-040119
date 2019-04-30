@@ -6,10 +6,11 @@
     - Use "before" actions to minimize repeated code
 
 * For the week
-    - Understand the file structure better
-    - See an example of an app built in Rails
+    <!-- - Understand the file structure better -->
+    <!-- - See an example of an app built in Rails -->
     - Best practices for optimizing
     - How to use a join table
-    - Rails migrations
-    - Routes and the mysteries therein
+    <!-- - Rails migrations -->
+    <!-- - Rails generators -->
+    <!-- - Routes and the mysteries therein -->
     - Rails cheatsheet about how the pieces fit together (Spark Notes)
