@@ -1,24 +1,10 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+form_tag - general purpose
+form_for - specifically tied to a model
 
-Things you may want to cover:
+To make nested forms work:
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1) `accepts_nested_attributes_for :snacks`
+2) Add to strong params of parent object (retailer)
+3) Build stub for child elements `@retailer.snacks.build`

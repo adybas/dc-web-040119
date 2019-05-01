@@ -5,16 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
 Snack.destroy_all
 Retailer.destroy_all
 
-retailers = Retailer.create([{name: "Hostess",
-                              year_established: 1929},
-                                {name: "Girl Scouts",
-                                    year_established: 1944}])
+gs = Retailer.create(name: "Girl Scouts", year_established: 1900)
+hostess = Retailer.create(name: "Hostess", year_established: 1912)
 
-snacks = Snack.create([{name: "Thin Mints", calories: 200,
-                          deliciousness: 6, retailer_id: 1},
-                       {name: "Chicken fingers", calories: 650,
-                          deliciousness: 8, retailer_id: 2}])
+Snack.create(name: "Trefoils", calories: 600, deliciousness: 6, retailer: gs)
+Snack.create(name: "Twinkies", calories: 750, deliciousness: 5, retailer: hostess)

@@ -1,131 +1,103 @@
-First talk about `Proc`s.  A `Proc` is a type of "Closure", which is a reusable block of code.  It's basically a tiny function.
+** Remind there is a code challenge **
 
-Example:
+- Build Retailer model
+    - Retailer has many snacks
+    - Snacks belongs_to retailer
 
-```rb
-def gen_times(factor)
-  return Proc.new {|n| n*factor }
-end
+- `rails g model Retailer name year_established:integer`
 
-times3 = gen_times(3)
-times5 = gen_times(5)
+- add migration for snack retailer_id:integer
+    - `rails g migration AddRetailerToSnacks retailer_id:integer`
 
-times3.call(12)               #=> 36
-times5.call(5)                #=> 25
-times3.call(times5.call(4))   #=> 60
+- seeds.rb
+
+```retailers = Retailer.create([{name: "Hostess", year_established: 1929},
+                                {name: "Girl Scouts", year_established: 1944}])
+
+snacks = Snack.create([{name: "Thin Mints", calories: 200, deliciousness: 6, retailer_id: 1},
+                       {name: "Chicken fingers", calories: 650, deliciousness: 8, retailer_id: 2}])
 ```
 
-* Why use validations
-    - Users are dumb (show gif)
+- `rake db:reset` (drop, migrate, seed) 
+    - Caveat:  nukes db, don't use in production
 
-- Different types of validations.  Model level validations are database-agnostic and use the power of ActiveRecord
+- `rails g controller Retailers index`
 
-* What's important about our snacks?
-    - shouldn't have duplicate info
+- add belongs_to and has_many to models
+```belongs_to :retailer```
+```has_many :snacks```
 
-# snack.rb
+- "How should we include retailers on our snack page?" (Elicit dropdown)
 
-  validates :name, presence: true
-  validates :calories, presence: true
-  validates :deliciousness, presence: true
+```<%= f.collection_select(:retailer_id, Retailer.all, :id, :name, prompt: true) %>```
 
-  - Snack should have name, calories, deliciousness
-  - Why bother with `deliciousness` if there's no way to _not_ put in a value in the form based on the dropdown?
-      - Answer:  Forms are just one way to add data (console, data migrations, seeds, etc)
-  - Show failure in console (works with new, not with create--validations fire on save, i.e., when it hits the database)
-  - show `snack.errors`; `snack.errors.messages`
-  - `belongs_to` is automatically set to `belongs_to :retailer, optional: false`.  Override this by setting to true
+- Will not create until added to required_params - add in retailer_id
 
-    - Demonstrate behavior in browser and necessity for feedback
-
-#snacks_controller.rb
-```rb
-  def create
-    @snack = Snack.create(accepted_params)
-    if @snack.errors
-      render :new
-    else
-      redirect_to snack_path(@snack)
-    end
-  end
-```
-
-# edit_form.erb
-
-```rb
-<% if @snack.errors %>
-    <ul class="error_list">
-    <% @snack.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-    <% end %>
-    </ul>
-<% end %>
-```
-
-  - can show inline styling and stylesheets
-  - bad fields get turned into `field_with_errors`
+retailer.rb
 
 ```
-.field_with_errors {
-    color: red;
-    display: inline;
-}
-
-.error_list li {
-    color: red;
-}
-```
-
-
-# retailer.rb
-
-```rb
 class Retailer < ApplicationRecord
     has_many :snacks
-    accepts_nested_attributes_for :snacks, reject_if: Proc.new { |attributes| attributes[:name].blank? }
-
-    validates :name, presence: true, uniqueness: true
-    validates :year_established, presence: true
-    validate :year_established_must_be_valid,
-        unless: Proc.new {|a| a.year_established.blank?}
-
-    def year_established_must_be_valid
-        if !(self.year_established > 1800 && self.year_established <= Date.today.year)
-            errors.add(:year_established, "must be between 1800 and #{Date.today.year}")
-        end
-    end
-
+    accepts_nested_attributes_for :snacks
 end
 ```
 
-# retailer_controller.rb
+
 ```rb
-  def create
-    @retailer = Retailer.create(strong_params)
-    if @retailer.errors
-      @retailer.snacks.build
-      render :new
-    else
-      redirect_to retailer_path(retailer)
-    end
+class Retailer < ApplicationController
+
+  def index
+    @retailers = Retailer.all
   end
+
+  def new
+    @retailer = Retailer.new
+    @retailer.snacks.build
+  end
+
+  def create
+    @retailer = Retailer.create(retailer_params)
+    redirect_to snacks_path
+  end
+
+  private
+
+  def retailer_params
+    params.require(:retailer).permit(:name, :year_established,
+        snacks_attributes: [:name, :calories, :deliciousness])
+  end
+end
 ```
 
-# Use partials!
+retailers new.html.erb
+ - You might be tempted to allow multiple snacks here but form will process the empty ones
+```html
 
-`shared/_errors.html.erb` **Note the underscore--it's actually important**
+    <h1>New Retailer</h1>
 
-```rb
-<% if new_object.errors %>
-    <ul class="error_list">
-    <% new_object.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+    <%= form_for @retailer do |r| %>
+        <%= r.label :name %>
+        <%= r.text_field :name %>
+        <%= r.label :year_established %>
+        <%= r.number_field :year_established %>
+
+        <h2>Snacks</h2>
+            <%= r.fields_for :snacks do |snack| %>
+                <%= snack.label :name %>
+                <%= snack.text_field :name %>
+                <%= snack.label :calories %>
+                <%= snack.number_field :calories %>
+                <%= snack.label :deliciousness %>
+                <%= snack.select :deliciousness, (1..10) %>
+            <% end %>
     <% end %>
-    </ul>
-<% end %>
 ```
 
-form pages:
-```rb
-<%= render partial: "shared/errors", locals: {new_object: @retailer} %>
+Nested URLs:
+
+```
+    resources :snacks
+    resources :retailers do
+      resources :snacks, {only: [:index, :show]}
+    end
 ```

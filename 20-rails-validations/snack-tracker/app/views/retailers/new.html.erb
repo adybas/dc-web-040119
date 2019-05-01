@@ -1,25 +1,22 @@
-<h1>Build a new Retailer</h1>
+<h1>Make a new retailer</h1>
 
-<%= render partial: "shared/error_display", locals: {object: @retailer} %>
+<%= render partial: "shared/error_list", locals: {new_thing: @retailer} %>
 
-<%= form_for @retailer do |f| %>
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-    <%= f.label :year_established %>
-    <%= f.number_field :year_established %>
+<%= form_for @retailer do |retailer| %>
+    <%= retailer.label :name %>
+    <%= retailer.text_field :name %>
+    <%= retailer.label :year_established %>
+    <%= retailer.number_field :year_established %>
 
-    <div>
-        <h3>Snacks</h3>
-        <%= f.fields_for :snacks do |snack| %>
-            <div>
-                <%= snack.label :name, "Snack Name" %>
-                <%= snack.text_field :name %>
-                <%= snack.label :calories %>
-                <%= snack.number_field :calories %>
-                <%= snack.label :deliciousness %>
-                <%= snack.select :deliciousness, (1..10) %>
-            </div>
+
+    <div>Snacks for this retailer</div>
+        <%= retailer.fields_for :snacks do |snack| %>
+            <%= snack.label :name %>
+            <%= snack.text_field :name %>
+            <%= snack.label :calories %>
+            <%= snack.number_field :calories %>
+            <%= snack.label :deliciousness %>
+            <%= snack.select :deliciousness, (1..10) %>
         <% end %>
-    </div>
-    <%= f.submit "Submit" %>
+    <%= retailer.submit %>
 <% end %>
