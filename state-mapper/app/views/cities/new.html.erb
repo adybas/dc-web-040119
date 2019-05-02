@@ -1,0 +1,14 @@
+<h1>New City Form</h1>
+
+<%= form_for @city do |c| %>
+    <%= c.label :name %>
+    <%= c.text_field :name %>
+    <%= c.label :state %>
+    <%= c.collection_select :state_id, State.all, :id, :abbreviation %>
+    <%= c.label :capital? %>
+    <%= radio_button_tag(:capital?, "True") %>
+    <%= label_tag(:true, "True") %>
+    <%= radio_button_tag(:capital?, "False") %>
+    <%= label_tag(:false, "False") %>
+    <%= c.submit %>
+<% end %>

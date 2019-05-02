@@ -1,0 +1,17 @@
+<h1>Show Page for State</h1>
+
+<div>Details for <%= @state.name %></div>
+
+<div class="state-details">
+    <div>Abbreviation: <%= @state.abbreviation %></div>
+    <div>Bird: <%= @state.bird %></div>
+    <div>Year founded: <%= @state.year_founded %></div>
+</div>
+
+<%= form_tag state_path(@state), method: "DELETE" do %>
+    <%= submit_tag "We hate this state" %>
+<% end %>
+
+<%= link_to "Edit this State", edit_state_path(@state) %>
+<%= link_to "Back to Index Page", states_path %>
+

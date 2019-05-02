@@ -1,0 +1,7 @@
+<h1>Index Page for City</h1>
+
+<% @cities.each do |city| %> 
+    <div><%= link_to city.name, city_path(city) %></div>
+<% end %>
+
+<%= link_to "New City", new_city_path %>

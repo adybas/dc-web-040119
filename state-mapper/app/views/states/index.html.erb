@@ -1,0 +1,11 @@
+<h1>Index View for States</h1>
+
+<h2>All the States of the Country</h2>
+
+<ul>
+    <% @states.each do |state| %>
+        <li><%= link_to state.name, state_path(state)%></li>
+    <% end %>
+</ul>
+
+<%= link_to "Create a new state", new_state_path %>

@@ -1,0 +1,36 @@
+<% if !@state.errors.empty? %>
+    <% @state.errors.full_messages.each do |message| %>
+        <div><%= message %></div>
+    <% end %>
+<% end %>
+
+<%= form_for @state do |f| %>
+    <div>
+        <%= f.label :name, "Cool Name for this State" %>
+        <%= f.text_field :name%>
+    </div>
+    <div>
+        <%= f.label :abbreviation %>
+        <%= f.text_field :abbreviation%>
+    </div>
+
+    <div>
+        <%= f.label :bird %>
+        <%= f.text_field :bird%>
+    </div>
+
+    <div>
+        <%= f.label :year_founded %>
+        <%= f.number_field :year_founded%>
+    </div>
+    
+    <div>
+    <h2>City Info</h2>
+    <%= f.fields_for :cities do |c| %>
+        <%= c.label :name, "City Name" %>
+        <%= c.text_field :name %>
+    <% end %>
+    </div>
+
+    <%= f.submit "Statify!" %>
+<% end %>
