@@ -4,9 +4,15 @@ class SnacksController < ApplicationController
 
   def index
     @snacks = Snack.all
+    # @secret_current_user = User.find(session[:user_id]).username.upcase
+    cookies["errol"] = "wassup"
   end
 
   def show
+    cookies["my_favorite"] = "chocolate chip"
+
+    cookies["last_visited"] = @snack.name
+    session["my_secret_favorite"] = "oatmeal raisin"
   end
 
   def new

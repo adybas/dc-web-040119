@@ -1,4 +1,11 @@
-<h1>All the Snacks</h1>
+<h1>All the Snacks for <%= get_current_user.username.capitalize %></h1>
+
+<h2>My favorite cookie is <%= cookies["my_favorite"] %></h2>
+<h2>My secret favorite cookie is <%= session["my_secret_favorite"] %></h2>
+
+<h3>Hello Errol <%= cookies["errol"] %></h3>
+
+<h2>The last snack I visited is <%= cookies["last_visited"] %></h2>
 
 <ul>
     <% @snacks.each do |s| %>
