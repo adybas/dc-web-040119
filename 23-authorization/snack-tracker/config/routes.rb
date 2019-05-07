@@ -10,5 +10,7 @@ Rails.application.routes.draw do
     resources :snacks, only: [:index, :show]
   end
   
-  get('/favorites', {to: 'snacks#favorites', as: 'favorites'})
+  get('/my_favorites', {to: 'snacks#favorites', as: 'favorites'})
+
+  resources :favorites, only: [:new, :create], as: "yummy"
 end

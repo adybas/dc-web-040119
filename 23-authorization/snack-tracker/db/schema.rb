@@ -10,7 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_07_143146) do
+ActiveRecord::Schema.define(version: 2019_05_07_190449) do
+
+  create_table "favorites", force: :cascade do |t|
+    t.integer "snack_id"
+    t.integer "user_id"
+  end
 
   create_table "retailers", force: :cascade do |t|
     t.string "name"

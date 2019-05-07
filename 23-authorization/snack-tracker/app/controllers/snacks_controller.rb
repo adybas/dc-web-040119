@@ -1,11 +1,12 @@
 class SnacksController < ApplicationController
   
   before_action :find_snack, only: [:edit, :update, :show]
+  before_action :authorized, except: [:index, :show]
 
   def index
-    @snacks = Snack.all
+    @snacks = get_current_user ? get_current_user.snacks : Snack.all
     # @secret_current_user = User.find(session[:user_id]).username.upcase
-    cookies["errol"] = "wassup"
+
   end
 
   def show
