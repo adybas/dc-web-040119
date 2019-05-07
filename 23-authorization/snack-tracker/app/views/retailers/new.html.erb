@@ -1,0 +1,22 @@
+<h1>Make a new retailer</h1>
+
+<%= render partial: "shared/error_list", locals: {new_thing: @retailer} %>
+
+<%= form_for @retailer do |retailer| %>
+    <%= retailer.label :name %>
+    <%= retailer.text_field :name %>
+    <%= retailer.label :year_established %>
+    <%= retailer.number_field :year_established %>
+
+
+    <div>Snacks for this retailer</div>
+        <%= retailer.fields_for :snacks do |snack| %>
+            <%= snack.label :name %>
+            <%= snack.text_field :name %>
+            <%= snack.label :calories %>
+            <%= snack.number_field :calories %>
+            <%= snack.label :deliciousness %>
+            <%= snack.select :deliciousness, (1..10) %>
+        <% end %>
+    <%= retailer.submit %>
+<% end %>
