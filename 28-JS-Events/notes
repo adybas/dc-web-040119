@@ -1,0 +1,34 @@
+// console.log("first line")
+//
+// setTimeout(sayHello, 0)
+//
+// let a = "global"
+//
+// function sayHello(){
+//   let a = "hello"
+//   setTimeout(sayBye, 500)
+//   console.log("hi")
+// }
+//
+// function sayBye(){
+//   console.log(a)
+// }
+//
+// console.log("hello from bottom of the file")
+
+
+
+let arr = [1,2,3]
+
+console.log(arr.map(makeNegative))
+
+function makeNegative(element){
+  return element * -1
+}
+
+
+.map( /*a function object*/ )
+
+function callback(/*parameter represents the element*/){
+  //return the new element that takes the place
+}
