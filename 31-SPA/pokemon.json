@@ -1,0 +1,29 @@
+{
+  "pokemon": [
+    {
+      "id": 1,
+      "name": "bulbasaur",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+    },
+    {
+      "id": 5,
+      "name": "charmeleon",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"
+    },
+    {
+      "id": 8,
+      "name": "wartortle",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png"
+    },
+    {
+      "name": "mew",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png",
+      "id": 12
+    },
+    {
+      "name": "metapod",
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/11.png",
+      "id": 13
+    }
+  ]
+}
