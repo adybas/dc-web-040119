@@ -18,16 +18,18 @@ class Pokemon {
     li.appendChild(button)
     button.classList.add("release")
     button.dataset.pokemonId = this.id
-    button.addEventListener("click", this.releasePokemon)
+    button.addEventListener("click", this.releasePokemon.bind(this))
   }
 
   releasePokemon(e){
-    let pokemonId = e.target.dataset.pokemonId
-    fetch(`${POKEMONS_URL}/${pokemonId}`, {
+    fetch(`${POKEMONS_URL}/${this.id}`, {
       method: "DELETE"
     }).then(res => res.json())
     .then(pokemon => {
       e.target.parentNode.remove()
+      Pokemon.all.splice(Pokemon.all.findIndex(p => p.id == this.id), 1)
+      let trainerInstance = Trainer.all.find(t => t.id == this.trainerId)
+      trainerInstance.pokemons.splice(trainerInstance.pokemons.findIndex(p => p.id == this.id), 1)
     })
   }
 
