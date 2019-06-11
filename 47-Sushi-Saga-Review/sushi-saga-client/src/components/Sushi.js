@@ -4,7 +4,7 @@ const Sushi = (props) => {
   // console.log(props)
   // debugger
   function clickHandler(_){
-    props.eatSushiHandler(props.sushi.id)
+    props.eatSushiHandler(props.sushi.id, props.sushi.price)
   }
 
 

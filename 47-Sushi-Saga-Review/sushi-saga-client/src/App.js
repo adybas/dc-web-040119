@@ -12,7 +12,8 @@ class App extends Component {
     this.state = {
       allSushi: [],
       eatenSushiIDs: [],
-      startingIndex: 0
+      startingIndex: 0,
+      wallet: 100
     }
     console.log("executing <App /> 's constructor()")
   }
@@ -30,22 +31,33 @@ class App extends Component {
     })
   }
 
-  eatSushiHandler = (id) => {
-    // debugger
-    console.log("executing <App /> 's eatSushiHandler()")
+  eatSushiHandler = (id, price) => {
+    console.log("executing <App /> 's eatSushiHandler()");
+    //* wallet related:
+    let newBalance = this.state.wallet - price;
+
+    if (newBalance < 0){
+      alert("Lacking funds!");
+      return;
+    }
+
+    //* eatenSushi related:
+
+    //check if this sushi has already been eated
+      // (in case someone clicks on the empty plate in belt)
+    if (this.state.eatenSushiIDs.includes(id)){
+      alert("Trying to eat a plate??");
+      return;
+    }
 
     // given ID of just-eaten Sushi:
     // update <App /> state
       // this.state.eatenSushiIDs should include the ID of what just got eaten!!
-
-    // Noooo: this.state.eatenSushiIDs.push(id)
-    // console.log(this.state.eatenSushiIDs)
-
     let copy = [...this.state.eatenSushiIDs];
-
     copy.push(id)
 
     this.setState({
+      wallet: newBalance,
       eatenSushiIDs: copy
     })
 
@@ -68,6 +80,12 @@ class App extends Component {
     return this.state.allSushi.slice(startingIndex, lastIndex)
   }
 
+  handleMoreButton = () => {
+    let newIndex = this.state.startingIndex + 4;
+
+    this.setState({startingIndex: newIndex})
+  }
+
 
   render() {
     console.log("executing <App /> 's render()")
@@ -75,9 +93,11 @@ class App extends Component {
     return (
       <div className="app">
         <SushiContainer
-          eatenSushiIDs={this.state.eatenSushiIDs}
-         eatSushiHandler={this.eatSushiHandler} sushiToDisplay={this.deriveSushiGivenStartingIndex()} />
-        <Table eatenSushiIDs={this.state.eatenSushiIDs}/>
+         eatenSushiIDs={this.state.eatenSushiIDs}
+         eatSushiHandler={this.eatSushiHandler} sushiToDisplay={this.deriveSushiGivenStartingIndex()}
+         handleMoreButton={this.handleMoreButton}
+         />
+        <Table eatenSushiIDs={this.state.eatenSushiIDs} wallet={this.state.wallet}/>
       </div>
     );
   }
